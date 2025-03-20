@@ -69,6 +69,22 @@ async def update_user(user: User):
 
     return {"error": "No se ha encontrado ningún usuario"}
 
+
+# Borrar usuarios segun el id introducido
+
+@app.delete("/user/{id}")
+async def user(id: int):
+    
+    borrado = False
+    
+    for index, saved_user in enumerate(users_list):
+        if saved_user.id == id:
+            del users_list[index]
+            borrado = True
+
+    if not borrado:
+        return {"Error":"No ha podido eliminarse el usuario"}
+
 # Función para buscar usuarios por ID
 def user_search(id: int):
     users = filter(lambda user: user.id == id, users_list)
