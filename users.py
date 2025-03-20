@@ -22,8 +22,8 @@ async def usersjson():
             {"name": "Jose manuel","surname":"Josema","url":"https://youtube.com","age":"44"},
             {"name": "David","surname":"Darbi","url":"https://youtube.com","age":"64"}]
     
-@app.get("/userclass")
-async def userclass():
+@app.get("/users")
+async def users():
     return users_list
 
 @app.get("/user/{id}")
@@ -34,13 +34,48 @@ async def user(id: int):
     except:
         return {"error":"No se ha encontrado ningun usuario"}
     
-@app.get("/userquery/")
+
+    
+@app.get("/user/")
 async def user(id: int):
     return user_search
+
+@app.post("/user/")
+async def user(user: User):
+    if type(user_search(user.id)) is not None:
+        return {"Error": "Este usuarion ya esxiste"}
     
+    users_list.append(user)
+    return user 
+    
+    
+@app.put("/user/")
+async def update_user(user: User):
+    
+    found = False
+    
+    for index, saved_user in enumerate(users_list):
+        
+        print(saved_user)
+        print(type(saved_user))
+        if saved_user.id == user.id:
+            users_list[index] = user
+            found = True
+            
+            
+    if not found:
+        return {"error":"No se ha encontrado ningun usuario"}
+    
+    return user
+            
+        
+    
+
+
 def user_search(id: int):
     users = filter(lambda user: user.id ==id, users_list)
     try:
         return list(users)[0]
     except:
-        return {"error":"No se ha encontrado ningun usuario"}
+        return None
+    
