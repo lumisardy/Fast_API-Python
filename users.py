@@ -80,6 +80,7 @@ async def user(id: int):
     for index, saved_user in enumerate(users_list):
         if saved_user.id == id:
             del users_list[index]
+            
             borrado = True
 
     if not borrado:
